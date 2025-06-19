@@ -5,7 +5,6 @@ import os
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import google.generativeai as genai
 from langchain.vectorstores import FAISS
-#from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
@@ -33,28 +32,8 @@ def get_text_chunks(text):
 
 
 
-# def get_vector_store(marathi_text_chunks):
-#     """
-#     दिलेल्या मराठी मजकुरासाठी वेक्टर स्टोअर तयार करते.
-
-#     Args:
-#         marathi_text_chunks: मराठी मजकुराचे तुकडे असलेली सूची.
-
-#     Returns:
-#         FAISS वेक्टर स्टोअर.
-#     """
-#     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-#     vector_store = FAISS.from_texts(marathi_text_chunks, embedding=embeddings)
-#     vector_store.save_local("marathi_faiss_index") # marathi_faiss_index नावाची directory तयार करते.
-#     #return vector_store
-
-
-
 def get_vector_store(text_chunks):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    # vector_store = FAISS.from_texts(text_chunks, embedding=embeddings, allow_dangerous_deserialization=True)
-    # vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
-    # vector_store.save_local("faiss_index")
     vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
     vector_store.save_local("faiss_index")
 
@@ -97,8 +76,9 @@ def user_input(user_question):
 
 def main():
     st.set_page_config("Chat With Multiple PDF")
+    
+    st.image("img.jpg", width=300) 
     st.markdown("## **💬 Chat With Your PDF Files**")
-    st.image("img.jpg", width=500) 
 
     # User question input and button
     user_question = st.text_area("Ask a question from pdf files", height=100)
